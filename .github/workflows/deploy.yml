@@ -15,13 +15,13 @@ jobs:
         run: |
           terraform version
       
-      - uses: ./.github/actions/deploy-terraform.yml
+      - uses: ./.github/actions/deploy-terraform
         with:
           directory: "environments/backend"
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - uses: ./.github/actions/deploy-terraform.yml
+      - uses: ./.github/actions/deploy-terraform
         with:
           directory: "environments/global"
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
