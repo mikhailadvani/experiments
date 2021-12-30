@@ -4,6 +4,8 @@ on:
   push:
     branches: [ "*" ]
 
+permissions: read-all
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
