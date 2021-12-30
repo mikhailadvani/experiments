@@ -24,18 +24,18 @@ jobs:
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: ${{ inputs.AWS_REGION }}
 
-      - name: "terraform-validate::${{inputs.directory_name}}"
+      - name: "terraform-validate"
         run: |
           cd ${{inputs.directory_name}}
           terraform validate
 
-      - name: "terraform-plan::${{inputs.directory_name}}"
+      - name: "terraform-plan"
         run: |
           cd ${{inputs.directory_name}}
           terraform init
           terraform plan -out _tfplan
 
-      - name: "terraform-apply::${{inputs.directory_name}}"
+      - name: "terraform-apply"
         if: github.ref == 'refs/heads/main'
         run: |
           cd ${{inputs.directory_name}}
