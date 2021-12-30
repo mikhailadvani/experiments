@@ -15,7 +15,7 @@ jobs:
         run: |
           terraform version
 
-      - uses: ./.github/actions/echo
+      - uses: mikhailadvani/experiments/.github/workflows/echo.yml
         with:
           username: "mikhail"
       
