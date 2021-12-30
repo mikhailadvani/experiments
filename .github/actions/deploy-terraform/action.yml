@@ -2,12 +2,8 @@ on:
   workflow_call:
     inputs:
       directory:
-        description: 'The directory to change into before running terraform commands'
-        required: true
         type: string
       AWS_REGION:
-        default: eu-west-1
-        required: false
         type: string
     secrets:
       AWS_ACCESS_KEY_ID:
@@ -19,8 +15,6 @@ on:
   
 jobs:
   deploy-terraform:
-    runs-on: ubuntu-latest
-    container: hashicorp/terraform:1.0.11
 
     steps:
       - name: Configure AWS credentials
