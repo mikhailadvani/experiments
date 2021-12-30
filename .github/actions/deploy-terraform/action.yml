@@ -1,7 +1,7 @@
 on:
   workflow_call:
     inputs:
-      directory:
+      directory_name:
         type: string
     #   AWS_REGION:
     #     type: string
@@ -24,19 +24,19 @@ jobs:
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: ${{ inputs.AWS_REGION }}
 
-      - name: "terraform-validate::${{ inputs.directory }}"
+      - name: "terraform-validate::${{inputs.directory_name}}"
         run: |
-          cd ${{ inputs.directory }}
+          cd ${{inputs.directory_name}}
           terraform validate
 
-      - name: "terraform-plan::${{ inputs.directory }}"
+      - name: "terraform-plan::${{inputs.directory_name}}"
         run: |
-          cd ${{ inputs.directory }}
+          cd ${{inputs.directory_name}}
           terraform init
           terraform plan -out _tfplan
 
-      - name: "terraform-apply::${{ inputs.directory }}"
+      - name: "terraform-apply::${{inputs.directory_name}}"
         if: github.ref == 'refs/heads/main'
         run: |
-          cd ${{ inputs.directory }}
+          cd ${{inputs.directory_name}}
           terraform apply -auto-approve -input=false _tfplan
