@@ -11,15 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     container: hashicorp/terraform:1.0.11
     steps:
-      - uses: actions/checkout@v2
-
-      - name: "terraform-version"
-        run: |
-          terraform version
-
-      - uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
-        with:
-          username: "mikhail"
+      uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
+      with:
+        username: "mikhail"
       
       # - uses: ./.github/actions/deploy-terraform
       #   with:
