@@ -1,0 +1,48 @@
+on:
+  workflow_call:
+    inputs:
+      directory:
+        description: 'The directory to change into before running terraform commands'
+        required: true
+        type: string
+      AWS_REGION:
+        default: eu-west-1
+        required: false
+        type: string
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        required: true
+        type: string
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+        type: string
+  
+jobs:
+  deploy-terraform:
+    runs-on: ubuntu-latest
+    container: hashicorp/terraform:1.0.11
+
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ inputs.AWS_REGION }}
+
+      - name: "terraform-validate::${{ inputs.directory }}"
+        run: |
+          cd ${{ inputs.directory }}
+          terraform validate
+
+      - name: "terraform-plan::${{ inputs.directory }}"
+        run: |
+          cd ${{ inputs.directory }}
+          terraform init
+          terraform plan -out _tfplan
+
+      - name: "terraform-apply::${{ inputs.directory }}"
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd ${{ inputs.directory }}
+          terraform apply -auto-approve -input=false _tfplan

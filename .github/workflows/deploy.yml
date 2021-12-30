@@ -1,0 +1,28 @@
+name: Deploy infrastructure
+
+on:
+  push:
+    branches: [ "*" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    container: hashicorp/terraform:1.0.11
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: "terraform-version"
+        run: |
+          terraform version
+      
+      - uses: ./.github/actions/deploy-terraform
+        with:
+          directory: "environments/backend"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - uses: ./.github/actions/deploy-terraform
+        with:
+          directory: "environments/global"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
