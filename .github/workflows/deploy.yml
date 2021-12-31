@@ -6,11 +6,17 @@ on:
 
 permissions: read-all
 
+runs_on: &runs_on
+  runs-on: ubuntu-latest
+  container: hashicorp/terraform:1.0.11
+
 jobs:
-  repo-lint:
+  repo-lint: 
+    <<: *runs_on
     uses: mikhailadvani/experiments/.github/workflows/terraform-repo-lint.yml@main
 
   deploy-backend:
+    <<: *runs_on
     uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
     with:
       directory: "environments/backend"
@@ -20,6 +26,7 @@ jobs:
     needs: repo-lint
 
   deploy-global:
+    <<: *runs_on
     uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
     with:
       directory: "environments/global" 

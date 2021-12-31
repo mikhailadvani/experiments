@@ -18,8 +18,6 @@ on:
 
 jobs:
   terraform-deploy:
-    runs-on: ubuntu-latest
-    container: hashicorp/terraform:1.0.11
     steps:
       - uses: actions/checkout@v2
       
