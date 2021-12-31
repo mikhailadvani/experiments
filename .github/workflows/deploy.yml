@@ -33,6 +33,7 @@ jobs:
     container: hashicorp/terraform:1.0.11
     steps:
       - run: sleep 180
+    needs: repo-lint
 
   deploy-global-2:
     uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
