@@ -7,7 +7,26 @@ on:
 permissions: read-all
 
 jobs:
-  call-workflow-passing-data:
+  call-a:
     uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
     with:
-      username: mona
+      username: a
+    concurrency: a
+  call-b:
+    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
+    with:
+      username: b
+    concurrency: b
+    needs: call-a
+  call-c:
+    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
+    with:
+      username: c
+    concurrency: c
+    needs: call-b
+  call-d:
+    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
+    with:
+      username: d
+    concurrency: d
+    needs: call-c
