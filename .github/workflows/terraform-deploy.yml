@@ -43,6 +43,12 @@ jobs:
           cd ${{ inputs.directory }}
           echo "::set-output name=stdout::$(terraform plan -out _tfplan -no-color)"
 
+      - name: echo
+        run: echo ${{ steps.plan.outputs.stdout }}
+
+      - name: echo all
+        run: echo ${{ steps.plan.outputs.* }}
+
       - uses: actions/github-script@v5
         if: github.event_name == 'pull_request'
         env:
