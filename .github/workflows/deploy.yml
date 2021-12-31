@@ -26,4 +26,13 @@ jobs:
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    needs: deploy-backend
+    needs: repo-lint
+
+  deploy-global-2:
+    uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
+    with:
+      directory: "environments/global" 
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    needs: deploy-global
