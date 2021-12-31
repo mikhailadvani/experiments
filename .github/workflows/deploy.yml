@@ -7,26 +7,21 @@ on:
 permissions: read-all
 
 jobs:
-  call-a:
-    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
+  repo-lint:
+    uses: mikhailadvani/experiments/.github/workflows/terraform-repo-lint.yml@main
+
+  deploy-backend:
+    uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
     with:
-      username: a
-    concurrency: a
-  call-b:
-    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
+      directory: "environments/backend" 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    needs: repo-lint
+
+  deploy-global:
+    uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
     with:
-      username: b
-    concurrency: b
-    needs: call-a
-  call-c:
-    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
-    with:
-      username: c
-    concurrency: c
-    needs: call-b
-  call-d:
-    uses: mikhailadvani/experiments/.github/workflows/echo.yml@main
-    with:
-      username: d
-    concurrency: d
-    needs: call-c
+      directory: "environments/global" 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    needs: deploy-backend
