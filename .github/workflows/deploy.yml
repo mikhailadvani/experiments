@@ -11,6 +11,7 @@ jobs:
     uses: mikhailadvani/experiments/.github/workflows/terraform-repo-lint.yml@main
 
   deploy-backend:
+    concurrency: backend
     uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
     with:
       directory: "environments/backend"
@@ -20,6 +21,7 @@ jobs:
     needs: repo-lint
 
   deploy-global:
+    concurrency: global
     uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
     with:
       directory: "environments/global" 
