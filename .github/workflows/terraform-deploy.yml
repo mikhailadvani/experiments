@@ -39,7 +39,12 @@ jobs:
 
       - name: "terraform-plan::${{ inputs.directory }}"
         id: plan
-        run: echo "::set-output name=stdout::$(terraform plan -out _tfplan -no-color)"
+        run: |
+          TERRAFORM_PLAN_OUTPUT=$(terraform plan -out _tfplan -no-color)
+          TERRAFORM_PLAN_OUTPUT="${TERRAFORM_PLAN_OUTPUT//'%'/'%25'}"
+          TERRAFORM_PLAN_OUTPUT="${TERRAFORM_PLAN_OUTPUT//$'\n'/'%0A'}"
+          TERRAFORM_PLAN_OUTPUT="${TERRAFORM_PLAN_OUTPUT//$'\r'/'%0D'}"
+          echo "::set-output name=content::$TERRAFORM_PLAN_OUTPUT"
         working-directory: ${{ inputs.directory }}
 
       - name: echo
