@@ -3,6 +3,8 @@ name: Deploy infrastructure
 on:
   push:
     branches: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
 
 permissions: read-all
 
