@@ -45,6 +45,8 @@ jobs:
 
       - uses: actions/github-script@v5
         if: github.event_name == 'pull_request'
+        permissions:
+          discussions: write
         env:
           PLAN: "terraform\n${{ steps.plan.outputs.stdout }}"
         with:
