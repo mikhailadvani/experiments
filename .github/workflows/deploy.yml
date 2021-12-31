@@ -26,20 +26,4 @@ jobs:
     secrets:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    needs: repo-lint
-
-  sleep:
-    runs-on: ubuntu-latest
-    container: hashicorp/terraform:1.0.11
-    steps:
-      - run: sleep 180
-    needs: [repo-lint, deploy-backend]
-
-  deploy-global-2:
-    uses: mikhailadvani/experiments/.github/workflows/terraform-deploy.yml@main
-    with:
-      directory: "environments/global" 
-    secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    needs: [deploy-global, deploy-backend, sleep]
+    needs: deploy-backend
