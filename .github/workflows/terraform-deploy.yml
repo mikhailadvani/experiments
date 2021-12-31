@@ -47,5 +47,3 @@ jobs:
           cd ${{ inputs.directory }}
           terraform apply _tfplan
 
-      - name: Sleep
-        run: sleep 60
