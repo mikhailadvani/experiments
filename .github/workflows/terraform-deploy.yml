@@ -48,7 +48,7 @@ jobs:
         working-directory: ${{ inputs.directory }}
 
       - name: echo
-        run: echo ${{ steps.plan.outputs.stdout }}
+        run: echo ${{ steps.plan.outputs.content }}
 
       - name: echo all
         run: echo ${{ steps.plan.outputs.* }}
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/github-script@v5
         if: github.event_name == 'pull_request'
         env:
-          PLAN: "${{ steps.plan.outputs.stdout }}"
+          PLAN: "${{ steps.plan.outputs.content }}"
           TF_WORKING_DIR: ${{ inputs.directory }}
         with:
           script: |
