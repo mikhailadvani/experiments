@@ -1,0 +1,22 @@
+name: Deploy app
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  deploy-dev:
+    concurrency: dev
+    uses: mikhailadvani/experiments/.github/workflows/environment-deploy.yml@main
+    with:
+      cluster_name: "dev"
+    secrets:
+      ENV_NAME: ${{ secrets.ENV_NAME }}
+
+  deploy-prod:
+    concurrency: prod
+    uses: mikhailadvani/experiments/.github/workflows/environment-deploy.yml@main
+    with:
+      cluster_name: "prod"
+    secrets:
+      ENV_NAME: ${{ secrets.ENV_NAME }}
+    needs: deploy-dev

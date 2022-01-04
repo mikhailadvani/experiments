@@ -1,0 +1,27 @@
+on:
+  workflow_call:
+    inputs:
+      cluster_name:
+        description: 'The name of the EKS cluster'
+        required: true
+        type: string
+      AWS_REGION:
+        default: eu-west-1
+        required: false
+        type: string
+    secrets:
+      ENV_NAME:
+        required: true
+
+
+jobs:
+  environment-deploy:
+    runs-on: ubuntu-latest
+    container: hashicorp/terraform:1.0.11
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Print env name
+        id: print
+        run: |
+          echo ${{ secrets.ENV_NAME }}
